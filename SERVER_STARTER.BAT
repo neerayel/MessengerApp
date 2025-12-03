@@ -1,1 +1,1 @@
-cmd /k .venv\Scripts\python.exe messenger_project\manage.py runserver
+cmd /k .venv\Scripts\python.exe manage.py runserver

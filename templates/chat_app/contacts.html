@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои контакты{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Добавить контакт</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.username.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Мои контакты ({{ contacts.count }})</h4>
+            </div>
+            <div class="card-body">
+                {% if contacts %}
+                    <div class="list-group">
+                        {% for contact in contacts %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1">{{ contact.username }}</h5>
+                                    <small class="text-muted">{{ contact.email }}</small>
+                                </div>
+                                <div>
+                                    <a href="{% url 'chat' contact.id %}" class="btn btn-sm btn-primary me-2">
+                                        Написать
+                                    </a>
+                                    <a href="{% url 'remove_contact' contact.id %}" 
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Удалить контакт?')">
+                                        Удалить
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <h5>У вас пока нет контактов</h5>
+                        <p class="text-muted">Добавьте контакты, чтобы начать общение</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

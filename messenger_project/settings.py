@@ -31,14 +31,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='django-insecure-your-secret-key-here')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.', 'nrl-customs.']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chat_app',
     'django_celery_beat',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'messenger_project.wsgi.application'
+ASGI_APPLICATION = 'messenger_project.asgi.application'
 
 
 # Database
@@ -149,6 +151,16 @@ CELERY_BEAT_SCHEDULE = {
     'clean-old-chats': {
         'task': 'chat_app.tasks.clean_old_chats',
         'schedule': timedelta(days=1),
+    },
+}
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
     },
 }
 

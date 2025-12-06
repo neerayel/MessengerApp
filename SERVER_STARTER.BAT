@@ -1,3 +1,3 @@
 start cmd /k ".venv\Scripts\celery.exe -A messenger_project worker -l info"
 start cmd /k ".venv\Scripts\celery.exe -A messenger_project beat -l info"
-start cmd /k ".venv\Scripts\python.exe manage.py runserver"
+start cmd /k ".venv\Scripts\daphne.exe -b 0.0.0.0 -p 8000 messenger_project.asgi:application"

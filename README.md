@@ -6,9 +6,10 @@ How to launch:
   - run docker-compose up -d
   - wait for docker to stop assembling a container
 
-2) Create virtual environment:
+2) Create virtual environment and download all packages:
   - python -m venv .venv
   - .venv\Scripts\Activate.bat (or use ENV_CONSOLE.BAT if on windows)
+  - pip install -r reqirements.txt
 
 3) Make migrations
   - python manage.py makemigrations
@@ -26,4 +27,4 @@ How to launch:
     + open 3 console windows and activate virtual environment ( .venv\Scripts\Activate.bat (or use ENV_CONSOLE.BAT if on windows) )
     + (first window) celery -A messenger_project worker -l info
     + (second window) celery -A messenger_project beat -l info
-    + (third window) python manage.py runserver
+    + (third window) daphne -b 0.0.0.0 -p 8000 messenger_project.asgi:application

@@ -1,5 +1,7 @@
 Basic django web-chat app with friendlist and message encryption
 
+<img width="505" height="314" alt="image" src="https://github.com/user-attachments/assets/510629fe-b51f-433c-b05d-154e4e2cdcf2" />
+
 How to launch:
 1) Start Postgres and Redis
   - Start cmd in project directory

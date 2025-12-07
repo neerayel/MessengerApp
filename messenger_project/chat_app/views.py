@@ -7,8 +7,6 @@ from django.views.decorators.http import require_POST
 from django.db.models import Q
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, ContactAddForm, MessageForm
 from .models import ContactList, Chat, EncryptedMessage
-from django.utils import timezone
-from datetime import timedelta
 import json
 
 def register_view(request):

@@ -3,9 +3,9 @@ import django
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
-import chat_app.routing
+import messenger_project.chat_app.routing
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "messenger_project.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "messenger_project.messenger_project.settings")
 
 django.setup()
 
@@ -15,7 +15,7 @@ application = ProtocolTypeRouter({
     "http": django_asgi_app,
     "websocket": AuthMiddlewareStack(
         URLRouter(
-            chat_app.routing.websocket_urlpatterns
+            messenger_project.chat_app.routing.websocket_urlpatterns
         )
     ),
 })

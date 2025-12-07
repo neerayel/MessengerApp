@@ -7,7 +7,12 @@ import environ
 
 # Инициализация окружения
 env = environ.Env()
-environ.Env.read_env()
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 # Генерация ключа шифрования при первом запуске
 def generate_encryption_key():
@@ -20,21 +25,18 @@ def generate_encryption_key():
 
 ENCRYPTION_KEY = generate_encryption_key()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('DJANGO_SECRET_KEY', default='django-insecure-your-secret-key-here')
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.', 'nrl-customs.']
-
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS')
 
 # Application definition
 
@@ -46,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chat_app',
+    'messenger_project.chat_app',
     'django_celery_beat',
     'channels',
 ]
@@ -61,7 +63,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'messenger_project.urls'
+ROOT_URLCONF = 'messenger_project.messenger_project.urls'
 
 TEMPLATES = [
     {
@@ -78,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'messenger_project.asgi.application'
+ASGI_APPLICATION = 'messenger_project.messenger_project.asgi.application'
 
 
 # Database
@@ -87,11 +89,11 @@ ASGI_APPLICATION = 'messenger_project.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME', default='messenger_db'),
-        'USER': env('DB_USER', default='messenger_user'),
-        'PASSWORD': env('DB_PASSWORD', default='messenger_password'),
-        'HOST': env('DB_HOST', default='localhost'),
-        'PORT': env('DB_PORT', default='5432'),
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -149,7 +151,7 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_BEAT_SCHEDULE = {
     'clean-old-chats': {
-        'task': 'chat_app.tasks.clean_old_chats',
+        'task': 'messenger_project.messenger_project.chat_app.tasks.clean_old_chats',
         'schedule': timedelta(days=1),
     },
 }

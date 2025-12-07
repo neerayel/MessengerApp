@@ -1,0 +1,1 @@
+default_app_config = 'messenger_project.chat_app.apps.ChatAppConfig'

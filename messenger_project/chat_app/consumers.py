@@ -71,7 +71,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def check_chat_access(self):
         from .models import Chat  # Ленивый импорт внутри функции
-        User = get_user_model()
         
         try:
             chat = Chat.objects.get(id=self.chat_id)

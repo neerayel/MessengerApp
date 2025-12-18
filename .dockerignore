@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+migrations/
+
+*.sqlite3
+.encryption_key
+.env_example
+
+celerybeat-schedule*
+docker-compose*
+
+.bat
+.md
